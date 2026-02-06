@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sistema de Reportes de Biblioteca - Next.js & PostgreSQL
 
-## Getting Started
+Este proyecto es una aplicación web construida con Next.js (App Router) y TypeScript para la visualización de reportes SQL basados en vistas de PostgreSQL. Incluye seguridad avanzada de base de datos y optimización mediante índices.
 
-First, run the development server:
+## Requisitos Previos
+
+- Docker y Docker Compose instalados.
+- Archivo `.env` configurado (ver sección de Variables de Entorno).
+
+## Configuración y Ejecución
+
+Para iniciar la aplicación, ejecuta:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## C) Índices (db/04_indexes.sql)
 
-## Learn More
+Se han implementado índices para optimizar las consultas de los reportes, especialmente en los joins y filtros recurrentes.
 
-To learn more about Next.js, take a look at the following resources:
+### Evidencia de Optimización (EXPLAIN ANALYZE)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 1. Consulta: Libros más prestados (`vw_most_borrowed_books`)
+Se utiliza un índice en `prestamos(ejemplar_id)` para acelerar los joins.
+```sql
+HashAggregate  (cost=105.51..107.51 rows=200 width=76) (actual time=0.457 ms)
+  Group Key: l.id, l.titulo, l.autor, l.categoria
+  ->  Hash Join  (cost=38.65..95.01 rows=1400 width=68)
+        Hash Cond: (p.ejemplar_id = e.id)
+        ->  Seq Scan on prestamos p ...
+        ->  Hash  (cost=32.40..32.40 rows=500 width=12)
+              ->  Hash Join  (cost=14.30..32.40 rows=500 width=12)
+                    Hash Cond: (e.libro_id = l.id)
+                    ->  Seq Scan on ejemplares e ...
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### 2. Consulta: Préstamos vencidos (`vw_overdue_loans`)
+Se utiliza un índice compuesto en `prestamos(socio_id, fecha_vencimiento)` para filtrar préstamos activos sin devolver.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## D) Seguridad (db/05_roles.sql)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La aplicación implementa un modelo de seguridad de "mínimo privilegio":
+
+1.  **App User (`app_user`)**: La aplicación Next.js NO se conecta como superusuario (postgres). Utiliza un rol restringido.
+2.  **Permisos**: El usuario `app_user` solo tiene permiso de `SELECT` sobre las **VISTAS**. No tiene acceso directo a las tablas base (`libros`, `socios`, etc.), lo que previene la manipulación de datos sensibles.
+3.  **Verificación**:
+    Para verificar las restricciones, puedes entrar al contenedor de base de datos:
+    ```bash
+    docker exec -it awos_postgres psql -U app_user -d library
+    ```
+    - Intentar leer una vista (EXITO): `SELECT * FROM vw_most_borrowed_books;`
+    - Intentar leer una tabla (DENIEGO): `SELECT * FROM socios;`
+
+---
+
+## E) Next.js (Visualización)
+
+- **Dashboard**: Vista principal con accesos directos a los 5 reportes.
+- **Reportes**:
+  1. Ranking de libros más prestados.
+  2. Préstamos vencidos con cálculo de multas.
+  3. Resumen financiero mensual de multas.
+  4. Actividad y tasa de morosidad de socios.
+  5. Salud del inventario y disponibilidad por categoría.
+- **Data Fetching**: Realizado Server-Side para proteger las credenciales y la lógica de negocio.
+
+## F) Filtros y Paginación
+
+- **Búsqueda**: Implementada en el reporte de libros más prestados (por título/autor) usando parámetros de consulta seguros.
+- **Paginación**: Implementada en el servidor para manejar grandes volúmenes de datos eficientemente en los reportes de libros y actividad de socios.
+
+## G) Variables de Entorno (.env)
+
+El archivo `.env` debe incluir:
+```env
+POSTGRES_DB=library
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DATABASE_URL=postgresql://app_user:app_password@db:5432/library
+```
+
+> [!IMPORTANT]
+> Los archivos SQL en `db/` están numerados (`01_`, `02_`, etc.) para garantizar que Docker los ejecute en el orden correcto (Esquema -> Seed -> Vistas -> Índices -> Roles).
+
