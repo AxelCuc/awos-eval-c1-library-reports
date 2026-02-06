@@ -76,15 +76,7 @@ La aplicación implementa un modelo de seguridad de "mínimo privilegio":
 - **Búsqueda**: Implementada en el reporte de libros más prestados (por título/autor) usando parámetros de consulta seguros.
 - **Paginación**: Implementada en el servidor para manejar grandes volúmenes de datos eficientemente en los reportes de libros y actividad de socios.
 
-## G) Variables de Entorno (.env)
 
-El archivo `.env` debe incluir:
-```env
-POSTGRES_DB=library
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-DATABASE_URL=postgresql://app_user:app_password@db:5432/library
-```
 
 > [!IMPORTANT]
 > Los archivos SQL en `db/` están numerados (`01_`, `02_`, etc.) para garantizar que Docker los ejecute en el orden correcto (Esquema -> Seed -> Vistas -> Índices -> Roles).
