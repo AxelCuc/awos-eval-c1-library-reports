@@ -27,16 +27,16 @@ export default async function MostBorrowedPage(props: {
         <div className="container mx-auto p-8 space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800">Most Borrowed Books</h1>
-                    <p className="text-gray-500 mt-1">Ranking of books by popularity to inform acquisition strategies.</p>
+                    <h1 className="text-3xl font-bold text-gray-800">Libros más Prestados</h1>
+                    <p className="text-gray-500 mt-1">Clasificación de libros por popularidad para informar estrategias de adquisición.</p>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <KPICard
-                    title="Top Book"
+                    title="Libro Top"
                     value={topBook ? topBook.titulo : 'N/A'}
-                    description={topBook ? `${topBook.total_prestamos} total loans` : ''}
+                    description={topBook ? `${topBook.total_prestamos} préstamos totales` : ''}
                     icon={BookOpen}
                 />
                 {/* Can add more KPIs if aggregate data was fetched separately */}
@@ -44,27 +44,27 @@ export default async function MostBorrowedPage(props: {
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-4 border-b border-gray-200 bg-gray-50/50 flex justify-between items-center">
-                    <h2 className="font-semibold text-gray-700">Book Rankings</h2>
+                    <h2 className="font-semibold text-gray-700">Ranking de Libros</h2>
                     <div className="w-full max-w-sm">
-                        <Search placeholder="Search title or author..." paramName="query" />
+                        <Search placeholder="Buscar título o autor..." paramName="query" />
                     </div>
                 </div>
 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Rank</TableHead>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Author</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead className="text-right">Total Loans</TableHead>
+                            <TableHead>Ranking</TableHead>
+                            <TableHead>Título</TableHead>
+                            <TableHead>Autor</TableHead>
+                            <TableHead>Categoría</TableHead>
+                            <TableHead className="text-right">Total de Préstamos</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {data.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center h-24 text-gray-500">
-                                    No results found.
+                                    No se encontraron resultados.
                                 </TableCell>
                             </TableRow>
                         ) : (

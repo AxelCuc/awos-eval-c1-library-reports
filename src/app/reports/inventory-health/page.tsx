@@ -14,38 +14,38 @@ export default async function InventoryHealthPage() {
     return (
         <div className="container mx-auto p-8 space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-gray-800">Inventory Health</h1>
-                <p className="text-gray-500 mt-1">Stock availability and loss prevention metrics by category.</p>
+                <h1 className="text-3xl font-bold text-gray-800">Salud del Inventario</h1>
+                <p className="text-gray-500 mt-1">Métricas de disponibilidad de stock y prevención de pérdidas por categoría.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <KPICard
-                    title="Total Inventory Items"
+                    title="Total de Artículos en Inventario"
                     value={totalGlobalItems}
                     icon={Package}
                 />
                 <KPICard
-                    title="Lost Items"
+                    title="Artículos Perdidos"
                     value={totalLost}
-                    description="Items marked as lost across all categories"
+                    description="Artículos marcados como perdidos en todas las categorías"
                     icon={Package}
                 />
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-4 border-b border-gray-200 bg-gray-50/50">
-                    <h2 className="font-semibold text-gray-700">Category Breakdown</h2>
+                    <h2 className="font-semibold text-gray-700">Desglose por Categoría</h2>
                 </div>
 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Category</TableHead>
-                            <TableHead className="text-center">Total Items</TableHead>
-                            <TableHead className="text-center">Available</TableHead>
-                            <TableHead className="text-center">Borrowed</TableHead>
-                            <TableHead className="text-center">Lost</TableHead>
-                            <TableHead className="text-right">Availability %</TableHead>
+                            <TableHead>Categoría</TableHead>
+                            <TableHead className="text-center">Total de Artículos</TableHead>
+                            <TableHead className="text-center">Disponibles</TableHead>
+                            <TableHead className="text-center">Prestados</TableHead>
+                            <TableHead className="text-center">Perdidos</TableHead>
+                            <TableHead className="text-right">% Disponibilidad</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

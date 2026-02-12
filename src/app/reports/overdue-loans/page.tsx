@@ -28,13 +28,13 @@ export default async function OverdueLoansPage(props: {
     return (
         <div className="container mx-auto p-8 space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-gray-800">Overdue Loans</h1>
-                <p className="text-gray-500 mt-1">Monitor active overdue loans and estimated fines.</p>
+                <h1 className="text-3xl font-bold text-gray-800">Préstamos Vencidos</h1>
+                <p className="text-gray-500 mt-1">Monitoree préstamos vencidos activos y multas estimadas.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <KPICard
-                    title="Total Overdue Loans"
+                    title="Total de Préstamos Vencidos"
                     value={totalOverdue}
                     icon={AlertTriangle}
                 />
@@ -42,24 +42,24 @@ export default async function OverdueLoansPage(props: {
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-4 border-b border-gray-200 bg-gray-50/50">
-                    <h2 className="font-semibold text-gray-700">Detailed List</h2>
+                    <h2 className="font-semibold text-gray-700">Lista Detallada</h2>
                 </div>
 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Member</TableHead>
-                            <TableHead>Book</TableHead>
-                            <TableHead>Due Date</TableHead>
-                            <TableHead className="text-center">Days Overdue</TableHead>
-                            <TableHead className="text-right">Suggested Fine</TableHead>
+                            <TableHead>Miembro</TableHead>
+                            <TableHead>Libro</TableHead>
+                            <TableHead>Fecha de Vencimiento</TableHead>
+                            <TableHead className="text-center">Días de Atraso</TableHead>
+                            <TableHead className="text-right">Multa Sugerida</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {data.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center h-24 text-gray-500">
-                                    No overdue loans found.
+                                    No se encontraron préstamos vencidos.
                                 </TableCell>
                             </TableRow>
                         ) : (
@@ -70,7 +70,7 @@ export default async function OverdueLoansPage(props: {
                                     <TableCell>{new Date(loan.fecha_vencimiento).toLocaleDateString()}</TableCell>
                                     <TableCell className="text-center">
                                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                            {loan.dias_atraso} days
+                                            {loan.dias_atraso} días
                                         </span>
                                     </TableCell>
                                     <TableCell className="text-right font-medium text-red-600">

@@ -6,8 +6,8 @@ import { NavBar } from '@/components/nav-bar';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Library Reports',
-  description: 'Library analytics dashboard',
+  title: 'Reportes de Biblioteca',
+  description: 'Panel de análisis de la biblioteca',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={`${inter.className} bg-white min-h-screen text-black`}>
         <NavBar />
         {children}

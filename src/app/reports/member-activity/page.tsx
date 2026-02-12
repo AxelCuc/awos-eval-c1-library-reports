@@ -20,13 +20,13 @@ export default async function MemberActivityPage(props: {
     return (
         <div className="container mx-auto p-8 space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-gray-800">Member Activity</h1>
-                <p className="text-gray-500 mt-1">Analyze member engagement and loan delinquency.</p>
+                <h1 className="text-3xl font-bold text-gray-800">Actividad de Miembros</h1>
+                <p className="text-gray-500 mt-1">Analice la participación de los miembros y la morosidad en los préstamos.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <KPICard
-                    title="Active Members"
+                    title="Miembros Activos"
                     value={metadata.total} // Approximate based on records returned
                     icon={Users}
                 />
@@ -34,17 +34,17 @@ export default async function MemberActivityPage(props: {
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="p-4 border-b border-gray-200 bg-gray-50/50">
-                    <h2 className="font-semibold text-gray-700">Member List</h2>
+                    <h2 className="font-semibold text-gray-700">Lista de Miembros</h2>
                 </div>
 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Member Name</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead className="text-center">Total Loans</TableHead>
-                            <TableHead className="text-center">Overdue Loans</TableHead>
-                            <TableHead className="text-right">Delinquency Rate</TableHead>
+                            <TableHead>Nombre del Miembro</TableHead>
+                            <TableHead>Tipo</TableHead>
+                            <TableHead className="text-center">Total de Préstamos</TableHead>
+                            <TableHead className="text-center">Préstamos Vencidos</TableHead>
+                            <TableHead className="text-right">Tasa de Morosidad</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

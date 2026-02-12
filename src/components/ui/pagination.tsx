@@ -27,17 +27,17 @@ export function Pagination({ totalPages }: PaginationProps) {
                     className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
                     <ChevronLeft className="w-5 h-5 mr-1" />
-                    Previous
+                    Anterior
                 </Link>
             ) : (
                 <div className="flex items-center px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-300 rounded-md cursor-not-allowed">
                     <ChevronLeft className="w-5 h-5 mr-1" />
-                    Previous
+                    Anterior
                 </div>
             )}
 
             <span className="text-sm text-gray-700">
-                Page <span className="font-bold">{currentPage}</span> of <span className="font-bold">{totalPages}</span>
+                Página <span className="font-bold">{currentPage}</span> de <span className="font-bold">{totalPages}</span>
             </span>
 
             {currentPage < totalPages ? (
@@ -45,12 +45,12 @@ export function Pagination({ totalPages }: PaginationProps) {
                     href={createPageURL(currentPage + 1)}
                     className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
-                    Next
+                    Siguiente
                     <ChevronRight className="w-5 h-5 ml-1" />
                 </Link>
             ) : (
                 <div className="flex items-center px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-300 rounded-md cursor-not-allowed">
-                    Next
+                    Siguiente
                     <ChevronRight className="w-5 h-5 ml-1" />
                 </div>
             )}

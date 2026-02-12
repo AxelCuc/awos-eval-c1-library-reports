@@ -1,14 +1,5 @@
--- ==========================================
--- SEED DATA EXPANDIDO
--- Sistema de Biblioteca
--- ==========================================
-
-TRUNCATE multas, prestamos, ejemplares, libros, socios
-RESTART IDENTITY CASCADE;
-
--- ==========================================
--- SOCIOS (34 registros)
--- ==========================================
+-- Expanded Seed Data
+-- 30+ Socios
 INSERT INTO socios (nombre, email, tipo_socio, fecha_alta) VALUES
 ('Ana Torres', 'ana@uni.edu', 'estudiante', '2023-01-10'),
 ('Luis Gómez', 'luis@uni.edu', 'estudiante', '2023-02-15'),
@@ -45,9 +36,7 @@ INSERT INTO socios (nombre, email, tipo_socio, fecha_alta) VALUES
 ('César Rojo', 'cesar@uni.edu', 'docente', '2023-01-20'),
 ('Diana Azul', 'diana@ext.com', 'externo', '2021-11-25');
 
--- ==========================================
--- LIBROS (34 registros)
--- ==========================================
+-- 30+ Libros
 INSERT INTO libros (titulo, autor, categoria, isbn) VALUES
 ('Clean Code', 'Robert C. Martin', 'Software', '9780132350884'),
 ('Design Patterns', 'Erich Gamma', 'Software', '9780201633610'),
@@ -83,42 +72,3 @@ INSERT INTO libros (titulo, autor, categoria, isbn) VALUES
 ('Building Microservices', 'Sam Newman', 'Sistemas', '9781491950357'),
 ('Site Reliability Engineering', 'Betsy Beyer', 'Sistemas', '9781491929124'),
 ('Soft Skills', 'John Sonmez', 'Gestión', '9781617292392');
-
--- ==========================================
--- EJEMPLARES (50 registros)
--- ==========================================
-DO $$
-BEGIN
-    FOR i IN 1..34 LOOP
-        INSERT INTO ejemplares (libro_id, codigo_barra, estado)
-        VALUES (i, 'CB-' || i || '-1', CASE WHEN i % 3 = 0 THEN 'prestado' WHEN i % 5 = 0 THEN 'perdido' ELSE 'disponible' END);
-        IF i <= 16 THEN
-            INSERT INTO ejemplares (libro_id, codigo_barra, estado)
-            VALUES (i, 'CB-' || i || '-2', CASE WHEN i % 2 = 0 THEN 'disponible' ELSE 'prestado' END);
-        END IF;
-    END LOOP;
-END $$;
-
--- ==========================================
--- PRÉSTAMOS (40 registros)
--- ==========================================
-INSERT INTO prestamos (ejemplar_id, socio_id, fecha_prestamo, fecha_vencimiento, fecha_devolucion)
-SELECT 
-    id as ejemplar_id,
-    (id % 30) + 1 as socio_id,
-    CURRENT_DATE - (id || ' days')::interval as fecha_prestamo,
-    CURRENT_DATE - (id - 15 || ' days')::interval as fecha_vencimiento,
-    CASE WHEN id % 4 = 0 THEN NULL ELSE CURRENT_DATE - (id - 5 || ' days')::interval END as fecha_devolucion
-FROM ejemplares
-WHERE id <= 40;
-
--- ==========================================
--- MULTAS (35 registros)
--- ==========================================
-INSERT INTO multas (prestamo_id, monto, fecha_pago)
-SELECT 
-    id as prestamo_id,
-    (id * 10.5) as monto,
-    CASE WHEN id % 2 = 0 THEN CURRENT_DATE - (id || ' days')::interval ELSE NULL END as fecha_pago
-FROM prestamos
-WHERE id <= 35;

@@ -3,36 +3,36 @@ import { BookOpen, AlertCircle, Banknote, Users, Package } from 'lucide-react';
 
 const reports = [
   {
-    title: 'Most Borrowed Books',
-    description: 'Ranking of books by popularity.',
+    title: 'Libros más Prestados',
+    description: 'Clasificación de libros por popularidad.',
     href: '/reports/most-borrowed',
     icon: BookOpen,
     color: 'bg-blue-500',
   },
   {
-    title: 'Overdue Loans',
-    description: 'Active overdue loans and simulated fines.',
+    title: 'Préstamos Vencidos',
+    description: 'Préstamos activos vencidos y multas simuladas.',
     href: '/reports/overdue-loans',
     icon: AlertCircle,
     color: 'bg-red-500',
   },
   {
-    title: 'Fines Summary',
-    description: 'Monthly breakdown of paid vs pending fines.',
+    title: 'Resumen de Multas',
+    description: 'Desglose mensual de multas pagadas vs pendientes.',
     href: '/reports/fines-summary',
     icon: Banknote,
     color: 'bg-amber-500',
   },
   {
-    title: 'Member Activity',
-    description: 'User activity and delinquency rates.',
+    title: 'Actividad de Miembros',
+    description: 'Actividad de usuarios y tasas de morosidad.',
     href: '/reports/member-activity',
     icon: Users,
     color: 'bg-purple-500',
   },
   {
-    title: 'Inventory Health',
-    description: 'Stock status by category.',
+    title: 'Salud del Inventario',
+    description: 'Estado del stock por categoría.',
     href: '/reports/inventory-health',
     icon: Package,
     color: 'bg-emerald-500',
@@ -42,9 +42,9 @@ const reports = [
 export default function Home() {
   return (
     <main className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-800">Library Insights Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gray-800">Panel de la Biblioteca</h1>
       <p className="text-xl text-gray-600 mb-12">
-        Welcome to the library reporting system. Select a report below to view detailed insights.
+        Bienvenido al sistema de reportes de la biblioteca. Seleccione un reporte a continuación para ver información detallada.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -72,7 +72,7 @@ export default function Home() {
               <p className="text-gray-600">{report.description}</p>
 
               <div className="mt-4 text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                View Report &rarr;
+                Ver Reporte &rarr;
               </div>
             </Link>
           );
